@@ -1,0 +1,99 @@
+#1.二分查找
+**************
+前置条件
+* 有序数组  
+* 无重复的元素
+************
+主要难点
+* 定义区间
+  > [left,right] 左闭右闭
+  > while left <= right 因为闭区间相等有意义
+  > nums[mid] > target 
+  > right = mid - 1 因为mid肯定不是target
+  > nums[mid] < target
+  > left = mid + 1
+  ***********************
+  > [left,right) 左闭右开
+  > while left < right 因为left==right在左闭右开区间里没有意义
+  > nums[mid] > target
+  > right = mid 因为右边是开区间，所以直接等mid
+  > nums[mid] < target 
+  > left = mid + 1 左边是开区间和第一种一致
+  ***********************************
+二分查找基本动作
+* 第一种
+```python
+left,right = 0,len(nums)-1
+while left<=right:
+    mid = left + (right - left) // 2
+    if nums[mid] == target:
+        return mid
+    elif nums[mid] > target:
+        right = mid - 1
+    else:
+        left = mid + 1
+return -1
+```
+* 第二种
+```python
+left,right = 0,len(nums)
+while left < right:
+    mid = left + (right - left) // 2
+    if nums[mid] == target:
+        return mid
+    elif nums[mid] > target:
+        right = mid
+    else:
+        left = mid + 1
+return -1
+```
+****************************
+进阶
+
+通过控制判断条件来控制区间范围
+
+* 找到第一个比target大的元素
+```python
+left,right,ans = 0,len(nums)-1,len(nums)
+while left <= right:
+    mid = left + (right - left) // 2
+    if nums[mid] > targrt:
+        right = mid - 1
+        ans = mid
+    else:
+        left = mid + 1
+```
+* 找到第一个大于等于target的元素
+```python
+left,right,ans = 0,len(nums)-1,len(nums)
+while left <= right:
+    mid = left + (right - left) // 2
+    if nums[mid] >= targrt:
+        right = mid - 1
+        ans = mid
+    else:
+        left = mid + 1
+```
+* 找到第一个小于target的元素
+```python
+left,right,ans = 0,len(nums)-1,len(nums)
+while left <= right:
+    mid = left + (right - left) // 2
+    if nums[mid] >= targrt:
+        right = mid - 1
+    else:
+        left = mid + 1
+        ans = mid
+```
+* 找到第一个小于等于target的元素
+```python
+left,right,ans = 0,len(nums)-1,len(nums)
+while left <= right:
+    mid = left + (right - left) // 2
+    if nums[mid] > targrt:
+        right = mid - 1
+    else:
+        left = mid + 1
+        ans = mid
+```
+ans = mid + 1 找到小于/小于等于/大于/大于等于target的第二个元素，以此类推但要注意判断是否在区间内
